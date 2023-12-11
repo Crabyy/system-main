@@ -22,11 +22,6 @@ const routes = [
         component: () => import("../components/Dashboard.vue"),
       },
       {
-        path: "/UnitSelection",
-        name: "UnitSelection",
-        component: () => import("../components/UnitSelection.vue"),
-      },
-      {
         path: "/AcquireUnit",
         name: "AcquireUnit",
         component: () => import("../components/AcquireUnit.vue"),
@@ -41,6 +36,26 @@ const routes = [
         name: "AdminAccountManagement",
         component: () => import("../components/AdminAccountManagement.vue"),
       },
+      {
+        path: "/UnitSelection",
+        name: "UnitSelection",
+        component: () => import("../components/UnitSelection.vue"),
+      },
+      // {
+      //   path: "/StudioUnit",
+      //   name: "StudioUnit",
+      //   component: () => import("../components/StudioUnit.vue"),
+      // },
+      // {
+      //   path: "/OneBedUnit",
+      //   name: "OneBedUnit",
+      //   component: () => import("../components/OneBedUnit.vue"),
+      // },
+      // {
+      //   path: "/TwoBedUnit",
+      //   name: "TwoBedUnit",
+      //   component: () => import("../components/TwoBedUnit.vue"),
+      // },
     ],
     beforeEnter: (to, from, next) => {
       if (checkIfUserIsAuthenticated()) {

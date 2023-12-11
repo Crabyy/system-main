@@ -113,7 +113,7 @@ export default {
   setup() {
     const tableRef = ref();
     const selected = ref([]);
-    const originalRows = ref([]); // Store the original data separately
+    const originalRows = ref([]);
     const rows = ref([]);
     const filter = ref('');
     const removeDialogVisible = ref(false);

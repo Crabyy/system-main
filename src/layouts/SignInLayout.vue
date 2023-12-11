@@ -3,35 +3,36 @@
   </div>
   <div class="w-full h-screen bg-cover bg-fixed bg-no-repeat"
     :style="{ backgroundImage: 'url(' + backgroundImage + ')' }">
-
     <q-form @submit.prevent="signin" class="flex justify-center items-center h-full">
       <div class="w-80 p-5 shadow-lg bg-white rounded-lg text-center">
         <img src="../assets/system-logo.jpg" alt="Logo"
-          class="mx-auto w-20 h-20 rounded-full mb-3 border-2 border-solid border-blue-900">
+          class="mx-auto w-20 h-20 rounded-full mb-3 border-2 border-solid border-blue-900" />
         <h1 class="title">Welcome</h1>
-        <hr class="mt-3">
+        <hr class="mt-3" />
         <div class="mt-3 relative">
           <input type="text" v-model="username" id="username" name="username" placeholder="Email/Username"
-            class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg">
+            class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg" />
           <i class="fa-solid fa-user absolute top-2 left-2 text-gray-500"></i>
         </div>
 
         <div class="mt-3 relative">
           <input type="password" v-model="password" id="password" name="password" placeholder="Password"
-            class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg">
+            class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg" />
           <i class="fa-solid fa-lock absolute top-2 left-2 text-gray-500"></i>
           <button @click.prevent="togglePasswordVisibility" class="absolute top-2 right-2 text-gray-500 cursor-pointer">
-            <i :class="passwordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'"></i>
+            <i :class="passwordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'
+              "></i>
           </button>
 
           <div class="mt-4">
-            <button class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 text-base">Sign
-              In</button>
+            <button class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 text-base">
+              Sign In
+            </button>
           </div>
           <small>
-            <p class="mt-2 text-xs">Don't have an account? <a href="#" class="register-here"
-                @click.prevent="openModal"><u>Register
-                  Here!</u></a>
+            <p class="mt-2 text-xs">
+              Don't have an account?
+              <a href="#" class="register-here" @click.prevent="openModal"><u>Register Here!</u></a>
             </p>
             <Register ref="registerModal" />
           </small>
@@ -57,9 +58,12 @@
                 </svg>
               </div>
               <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Error Logging In</h3>
+                <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">
+                  Error Logging In
+                </h3>
                 <div class="mt-2">
-                  <p class="text-sm text-gray-500">Invalid Username/Email or Password. Please try again!
+                  <p class="text-sm text-gray-500">
+                    Invalid Username/Email or Password. Please try again!
                   </p>
                 </div>
               </div>
@@ -67,7 +71,9 @@
           </div>
           <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
             <button type="button" @click="deacModal"
-              class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">Close</button>
+              class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">
+              Close
+            </button>
           </div>
         </div>
       </div>
@@ -76,14 +82,14 @@
 </template>
 
 <script>
-import { simulateLogin, checkIfUserIsAuthenticated } from '../router/auth.js'
-import backgroundImage from '../assets/apartment.jpg';
-import Register from '../pages/Register.vue'
+import { simulateLogin, checkIfUserIsAuthenticated } from "../router/auth.js";
+import backgroundImage from "../assets/apartment.jpg";
+import Register from "../pages/Register.vue";
 
 export default {
-  name: 'SigninComponent',
+  name: "SigninComponent",
   components: {
-    Register
+    Register,
   },
 
   data() {
@@ -91,22 +97,22 @@ export default {
       errModal: false,
       passwordVisible: false,
       backgroundImage,
-      username: '',
-      password: '',
-      isAuthenticated: false
-    }
+      username: "",
+      password: "",
+      isAuthenticated: false,
+    };
   },
 
   beforeRouteEnter(to, from, next) {
     if (checkIfUserIsAuthenticated()) {
-      const userType = localStorage.getItem('userType')
-      if (userType === 'admin') {
-        next({ name: 'Dashboard' })
+      const userType = localStorage.getItem("userType");
+      if (userType === "admin") {
+        next({ name: "Dashboard" });
       } else {
-        next({ name: 'Dashboard' })
+        next({ name: "Dashboard" });
       }
     } else {
-      next()
+      next();
     }
   },
 
@@ -114,67 +120,68 @@ export default {
     openModal() {
       // Access the RegisterModal component using the ref and call its openModal method
       this.$refs.registerModal.openModal();
-
     },
 
     togglePasswordVisibility() {
-      const passwordInput = document.getElementById('password');
-      if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
+      const passwordInput = document.getElementById("password");
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
         this.passwordVisible = true;
       } else {
-        passwordInput.type = 'password';
+        passwordInput.type = "password";
         this.passwordVisible = false;
       }
     },
 
     async signin() {
       try {
-        const response = await fetch('http://localhost/system-main/database/api/signin.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: new URLSearchParams({
-            username: this.username,
-            password: this.password
-          })
-        })
+        const response = await fetch(
+          "http://localhost/system-main/database/api/signin.php",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+              username: this.username,
+              password: this.password,
+            }),
+          }
+        );
 
-        const responseData = await response.json()
+        const responseData = await response.json();
 
         if (responseData && responseData.success) {
           // console.log('Login successful')
 
-          simulateLogin()
+          simulateLogin();
 
-          localStorage.setItem('userFirstName', responseData.userFirstName)
+          localStorage.setItem("userFirstName", responseData.userFirstName);
           if (responseData.userType) {
-            localStorage.setItem('userType', responseData.userType)
+            localStorage.setItem("userType", responseData.userType);
 
-            if (responseData.userType === 'admin') {
-              this.$router.push({ name: 'Dashboard' })
+            if (responseData.userType === "admin") {
+              this.$router.push({ name: "Dashboard" });
             } else {
-              this.$router.push({ name: 'Dashboard' })
+              this.$router.push({ name: "Dashboard" });
             }
           }
         } else {
-          this.errModal = true
+          this.errModal = true;
           // console.error(responseData && responseData.message ? responseData.message : 'Unknown error')
           // this.errorMessage = 'Invalid ID or Password'
           // console.log('User Type:', responseData.userType);
-
         }
       } catch (error) {
-        console.error('Error during login:', error)
+        console.error("Error during login:", error);
       }
     },
 
     deacModal() {
-      this.errModal = false
-    }
-  }
-}
+      this.errModal = false;
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -187,7 +194,7 @@ export default {
 }
 
 .title::after {
-  content: '';
+  content: "";
   width: 50px;
   height: 4px;
   border-radius: 3px;

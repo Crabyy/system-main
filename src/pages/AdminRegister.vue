@@ -9,7 +9,7 @@
         </svg>
       </button>
       <div class="text-center">
-        <h2 class="text-3xl text-blue-700 font-bold">Register</h2>
+        <h2 class="text-3xl text-blue-700 font-bold">Create Admin Account</h2>
         <br>
       </div>
 
@@ -128,7 +128,7 @@
         </div>
         <div class="flex items-center justify-end mt-6 w-full">
           <button type="submit" id="register" name="register"
-            class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline text-sm">Register</button>
+            class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline text-sm">Create</button>
         </div>
       </q-form>
       <!-- Modal for Error Handling -->

@@ -36,6 +36,8 @@
               </q-item>
             </router-link>
 
+
+            <!-- UNIT SELECTION -->
             <router-link to="/UnitSelection">
               <q-item clickable v-ripple @click="selectItem('UnitSelection')"
                 :class="{ 'q-item-active': selectedItem === 'UnitSelection' }">
@@ -100,7 +102,7 @@
 
 <script>
 import { ref } from "vue";
-import { simulateLogout } from '../router/auth'
+import { simulateLogout } from "../router/auth";
 
 export default {
   setup() {
@@ -122,18 +124,17 @@ export default {
   methods: {
     logoutDashboard() {
       simulateLogout();
-      this.$router.push('/')
-    }
+      this.$router.push("/");
+    },
   },
   computed: {
     userFirstName() {
-      return localStorage.getItem('userFirstName')
+      return localStorage.getItem("userFirstName");
     },
     userType() {
-      return localStorage.getItem('userType')
-    }
-  }
-
+      return localStorage.getItem("userType");
+    },
+  },
 };
 </script>
 
