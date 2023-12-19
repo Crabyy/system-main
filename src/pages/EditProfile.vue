@@ -214,6 +214,8 @@ export default {
     backTo() {
       this.showModal = false
       this.sucModal = false
+
+      window.location.reload();
     }
   },
 
