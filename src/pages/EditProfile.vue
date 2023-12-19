@@ -194,7 +194,7 @@ export default {
             };
 
             const storedUserData = sessionStorage.getItem("userData");
-            this.$root.$emit("profile-updated", updatedUserData);
+            this.$emit("profile-updated");
 
             if (storedUserData) {
               const existingUserData = JSON.parse(storedUserData);

@@ -204,11 +204,12 @@ export default {
       }
     },
 
-    updateProfileData(updatedUserData) {
-      // Update the user data with the received data
-      this.userData = updatedUserData;
-      // Optionally, you can also update the sessionStorage
-      sessionStorage.setItem("userData", JSON.stringify(updatedUserData));
+    updateProfileData() {
+      const updatedUserData = sessionStorage.getItem("userData");
+      if (updatedUserData) {
+        this.userData = JSON.parse(updatedUserData);
+        sessionStorage.setItem("userData", updatedUserData);
+      }
     },
 
   },
