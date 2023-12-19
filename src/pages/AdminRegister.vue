@@ -201,6 +201,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -217,6 +218,7 @@ export default {
       showModal: false,
       showPassword: false,
       showConfirmPassword: false,
+
       givenname: '',
       middlename: '',
       surname: '',

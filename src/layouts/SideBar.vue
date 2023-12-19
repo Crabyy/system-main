@@ -4,8 +4,8 @@
       <q-header elevated :class="$q.dark.isActive ? 'bg-secondary' : 'bg-gray-800'">
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
-          <q-toolbar-title v-if="userType === 'user'">Dashboard</q-toolbar-title>
-          <q-toolbar-title v-if="userType === 'admin'">Admin Dashboard</q-toolbar-title>
+          <!-- <q-toolbar-title v-if="userType === 'user'">Dashboard</q-toolbar-title> -->
+          <!-- <q-toolbar-title v-if="userType === 'admin'">Admin Dashboard</q-toolbar-title> -->
         </q-toolbar>
       </q-header>
 
@@ -128,11 +128,8 @@ export default {
     },
   },
   computed: {
-    userFirstName() {
-      return localStorage.getItem("userFirstName");
-    },
     userType() {
-      return localStorage.getItem("userType");
+      return sessionStorage.getItem("userType");
     },
   },
 };

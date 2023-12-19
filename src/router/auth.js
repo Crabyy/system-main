@@ -1,5 +1,5 @@
 const tokenKey = "authToken";
-let authToken = localStorage.getItem(tokenKey);
+let authToken = sessionStorage.getItem(tokenKey);
 
 export function checkIfUserIsAuthenticated() {
   return authToken !== null && authToken !== undefined;
@@ -7,14 +7,14 @@ export function checkIfUserIsAuthenticated() {
 
 export function simulateLogin() {
   authToken = generateAuthToken();
-  localStorage.setItem(tokenKey, authToken);
+  sessionStorage.setItem(tokenKey, authToken);
 }
 
 export function simulateLogout() {
   authToken = null;
-  localStorage.removeItem(tokenKey);
-  localStorage.removeItem("userType");
-  localStorage.removeItem("userFirstName");
+  sessionStorage.removeItem(tokenKey);
+  sessionStorage.removeItem("userType");
+  sessionStorage.removeItem("userData");
 }
 
 function generateAuthToken() {

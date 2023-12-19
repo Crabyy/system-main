@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     header("Content-Type: application/json");
     echo json_encode(['error' => 'Connection failed: ' . $conn->connect_error]);
   } else {
-    $stmt = $conn->prepare("SELECT id, unitname, unitno, unitstatus, unitposition, unitprice, unittype FROM units WHERE unitstatus = 1");
+    $stmt = $conn->prepare("SELECT id, unitname, unitno, unitstatus, unitposition, unitprice, unittype FROM units WHERE status = 1");
     $stmt->execute();
 
     $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
       header("Content-Type: application/json");
       echo json_encode(['error' => 'Connection failed: ' . $conn->connect_error]);
     } else {
-      $stmt = $conn->prepare("UPDATE units SET unitstatus = 0 WHERE id = ?");
+      $stmt = $conn->prepare("UPDATE units SET status = 0 WHERE id = ?");
       $stmt->bind_param('i', $input['id']);
       $stmt->execute();
 

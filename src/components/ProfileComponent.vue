@@ -7,13 +7,13 @@
 
       <!-- Name, Age -->
       <div class="profile-details text-[20px] pl-[20px] flex-col">
-        <p class="pb-[5px]" v-if="selectedUser">
-          Name: {{ selectedUser.surname }}, {{ selectedUser.givenname }} {{ selectedUser.middlename }}
+        <p class="pb-[5px]">
+          Name: {{ userData.surname }}, {{ userData.givenname }} {{ userData.middlename }}
         </p>
-        <p class="pb-[5px]">Age:</p>
+        <p class="pb-[5px]">Age: {{ userAge }}</p>
       </div>
 
-      <div class="flex items-center justify-between mt-6 pb-4">
+      <div class="flex items-center justify-between mt-6 pb-4" v-if="userType === 'user'">
         <button type="submit"
           class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 ml-auto w rounded-lg focus:outline-none focus:shadow-outline"
           @click.prevent="openModal">
@@ -21,7 +21,7 @@
         </button>
       </div>
 
-      <EditProfile ref="ProfileEditModal" />
+      <EditProfile ref="ProfileEditModal" @profile-updated="updateProfileData" />
 
       <!-- Horizontal Rule -->
       <hr class="my-auto border-[2px] rounded-lg" />
@@ -31,14 +31,14 @@
     <div class="grid grid-cols-1 md:grid-cols-2 md:gap-2">
       <!-- First Column: Given name, Middle name, Surname, Birthdate, Gender -->
       <div class="p-4">
-        <p class="pb-2">Birthdate: </p>
-        <p class="pb-2">Gender:</p>
-        <p>Email:</p>
+        <p class="pb-2">Birthdate: {{ birthDate }} </p>
+        <p class="pb-2">Gender: {{ userData.gender }}</p>
+        <p>Email: {{ userData.email }}</p>
       </div>
 
       <!-- Second Column: Email, Username, Password, Contact number -->
       <div class="p-2 md:p-2">
-        <p class="pb-2">Username:</p>
+        <p class="pb-2">Username: {{ userData.username }}</p>
         <div class="flex items-center">
           <label for="password" class="pr-2 font-medium text-gray-900 dark:text-white">Password:</label>
           <button id="toggleModalBtn" class="text-blue-700 font-mediumunderline focus:outline-none" type="button"
@@ -46,7 +46,7 @@
             Change Password
           </button>
         </div>
-        <p class="text-lg pt-1">Contact Number:</p>
+        <p class="text-lg pt-1" v-if="userType === 'user'">Contact Number: {{ userData.contactnumber }}</p>
       </div>
     </div>
   </div>
@@ -73,21 +73,39 @@
         </div>
         <!-- Modal body -->
         <div class="p-4 md:p-5">
-          <form class="space-y-4" action="#">
-            <div>
-              <input type="Password" name="Current Password" id="Current Password"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400"
+          <form class="space-y-4" action="#" @submit.prevent="changePassword">
+
+            <div class="relative">
+              <input :type="showPassword ? 'text' : 'password'" v-model="currentPassword" name="Current Password"
+                id="Current Password"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 dark:border-gray-500 dark:placeholder-gray-400"
                 placeholder="Current Password" required />
+              <i v-if="!showPassword" @click="togglePasswordVisibility"
+                class="fas fa-eye-slash absolute top-3 right-2 text-gray-500 cursor-pointer"></i>
+              <i v-if="showPassword" @click="togglePasswordVisibility"
+                class="fas fa-eye absolute top-3 right-2 text-gray-500 cursor-pointer"></i>
             </div>
-            <div>
-              <input type="password" name="New password" id="New password" placeholder="New Password"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400"
+
+            <div class="relative">
+              <input :type="showNewPassword ? 'text' : 'password'" v-model="newPassword" name="New password"
+                id="New password" placeholder="New Password"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 dark:border-gray-500 dark:placeholder-gray-400"
                 required />
+              <i v-if="!showNewPassword" @click="toggleNewPasswordVis"
+                class="fas fa-eye-slash absolute top-3 right-2 text-gray-500 cursor-pointer"></i>
+              <i v-if="showNewPassword" @click="toggleNewPasswordVis"
+                class="fas fa-eye absolute top-3 right-2 text-gray-500 cursor-pointer"></i>
             </div>
-            <div>
-              <input type="password" name="Confirm password" id="Confirm password" placeholder="Confirm Password"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400"
+
+            <div class="relative">
+              <input :type="showReNewPassword ? 'text' : 'password'" name="Confirm password" id="Confirm password"
+                placeholder="Confirm Password"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 dark:border-gray-500 dark:placeholder-gray-400"
                 required />
+              <i v-if="!showReNewPassword" @click="toggleReNewPasswordVis"
+                class="fas fa-eye-slash absolute top-3 right-2 text-gray-500 cursor-pointer"></i>
+              <i v-if="showReNewPassword" @click="toggleReNewPasswordVis"
+                class="fas fa-eye absolute top-3 right-2 text-gray-500 cursor-pointer"></i>
             </div>
             <div class="flex justify-end">
               <button type="submit"
@@ -96,6 +114,7 @@
               </button>
             </div>
           </form>
+
         </div>
       </div>
     </div>
@@ -103,6 +122,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import EditProfile from "../pages/EditProfile.vue";
 
 export default {
@@ -112,6 +132,10 @@ export default {
   },
   data() {
     return {
+      showPassword: false,
+      showNewPassword: false,
+      showReNewPassword: false,
+
       profileName: "",
       age: "",
       givenName: "",
@@ -122,6 +146,8 @@ export default {
       email: "",
       username: "",
       contactNumber: "",
+      currentPassword: "",
+      newPassword: "",
     };
   },
 
@@ -143,6 +169,73 @@ export default {
     openModal() {
       // Access the RegisterModal component using the ref and call its openModal method
       this.$refs.ProfileEditModal.openModal();
+    },
+
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
+    },
+
+    toggleNewPasswordVis() {
+      this.showNewPassword = !this.showNewPassword;
+    },
+    toggleReNewPasswordVis() {
+      this.showReNewPassword = !this.showReNewPassword;
+    },
+
+    async changePassword() {
+      try {
+        const response = await axios.post("http://localhost/system-main/database/include/pass_inc.php", {
+          id: this.userData.id,
+          currentPassword: this.currentPassword,
+          newPassword: this.newPassword,
+          userType: this.userType,
+        });
+
+        if (response.data.success) {
+          // Password changed successfully, you can handle this as needed (show a message, close the modal, etc.)
+          console.log("Password changed successfully");
+          this.hideModal(); // You may want to close the modal
+        } else {
+          // Handle the case where password change was not successful
+          console.error(response.data.message);
+        }
+      } catch (error) {
+        console.error("An error occurred", error);
+      }
+    },
+
+    updateProfileData(updatedUserData) {
+      // Update the user data with the received data
+      this.userData = updatedUserData;
+      // Optionally, you can also update the sessionStorage
+      sessionStorage.setItem("userData", JSON.stringify(updatedUserData));
+    },
+
+  },
+
+  computed: {
+    userData() {
+      const userData = sessionStorage.getItem("userData");
+      return userData ? JSON.parse(userData) : null;
+    },
+
+    userType() {
+      return sessionStorage.getItem("userType");
+    },
+    userAge() {
+      if (this.userData && this.userData.birthdate) {
+        const birthYear = new Date(this.userData.birthdate).getFullYear();
+        const currentYear = new Date().getFullYear();
+        return currentYear - birthYear;
+      }
+      return "";
+    },
+    birthDate() {
+      if (this.userData && this.userData.birthdate) {
+        const options = { month: "long", day: "numeric", year: "numeric" };
+        return new Date(this.userData.birthdate).toLocaleDateString(undefined, options);
+      }
+      return "";
     },
   },
 

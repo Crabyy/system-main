@@ -3,7 +3,11 @@
     <div class="row flex flex-col">
       <!-- Container 1: TITLE AND PICTURE -->
       <div class="relative">
-        <div class="relative rounded-lg mx-auto mt-4 overflow-hidden shadow-md shadow-black"
+        <q-toolbar>
+          <q-toolbar-title v-if="userType === 'user'">Dashboard</q-toolbar-title>
+          <q-toolbar-title v-if="userType === 'admin'">Admin Dashboard</q-toolbar-title>
+        </q-toolbar>
+        <div class="relative rounded-lg mx-auto overflow-hidden shadow-md shadow-black"
           style="height: 250px; width: 100%">
           <!-- Set your desired height and width -->
           <!-- Set your desired height -->
@@ -21,7 +25,7 @@
           <div class="flex">
             <!-- Container 1: First Image -->
             <div class="rounded-lg mt-10 m-auto ml-0 relative overflow-hidden shadow-md shadow-black"
-              style="width: 400px; height: 300px; margin-right: 20px">
+              style="width: 400px; height: 250px; margin-right: 20px">
               <img src="src/assets/unitStudio.jpg" alt="Studio Unit" class="object-cover object-center w-full h-full" />
               <a href="#" class="absolute bottom-4 right-4 text-gray-300 hover:text-white" id="changePicture"
                 style="font-size: 1.5rem" @click="openStudio">
@@ -31,7 +35,7 @@
 
             <!-- Container 2: Second Image -->
             <div class="rounded-lg mt-10 m-auto ml-0 relative overflow-hidden shadow-md shadow-black"
-              style="width: 400px; height: 300px">
+              style="width: 400px; height: 250px">
               <img src="src/assets/onebed.jpg" alt="OneBed" class="object-cover object-center w-full h-full" />
               <a href="#" class="absolute bottom-4 right-4 text-gray-300 hover:text-white" id="changePicture"
                 style="font-size: 1.5rem" @click="openOne">
@@ -41,7 +45,7 @@
 
             <!-- Container 3: Third Image -->
             <div class="rounded-lg mt-10 m-auto ml-0 relative overflow-hidden shadow-md shadow-black"
-              style="width: 400px; height: 300px">
+              style="width: 400px; height: 250px">
               <img src="src/assets/twobed.jpeg" alt="twoBed" class="object-cover object-center w-full h-full" />
               <a href="#" class="absolute bottom-4 right-4 text-gray-300 hover:text-white" id="changePicture"
                 style="font-size: 1.5rem" @click="openTwo">
@@ -91,7 +95,7 @@ export default {
 
   computed: {
     userType() {
-      return localStorage.getItem('userType')
+      return sessionStorage.getItem('userType')
     }
   }
 };

@@ -1,7 +1,6 @@
 <template>
   <div v-if="showModal" class="fixed inset-0 z-50 overflow-auto bg-smoke-dark flex">
-    <div
-      class="relative p-8 bg-white w-full max-w-2xl m-auto flex-col flex rounded-lg shadow-lg shadow-black border border-black">
+    <div class="relative p-8 bg-white w-full max-w-2xl m-auto flex-col flex rounded-lg shadow-black border mongos">
       <button @click="closeModal" class="absolute top-0 right-0 p-4">
         <svg class="fill-current text-grey" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
           <path d="M0 0h24v24H0z" fill="none" />
@@ -13,7 +12,7 @@
       <form @submit.prevent="submit">
         <div>
           <!-- Rectangular Picture with Edit Icon -->
-          <div class="relative rounded-lg mx-auto mt-4 shadow-md shadow-black">
+          <div class="relative rounded-lg mx-auto mt-4 shadow-md shadow-black img1">
             <img :src="imagePath" alt="Rectangular Picture" class="object-cover object-center w-full h-48" />
             <input ref="fileInput" type="file" style="display: none" @change="handleFileChange" />
             <a href="#" class="absolute bottom-4 right-4 text-gray-300 hover:text-white" id="changePicture"
@@ -23,7 +22,7 @@
           </div>
 
           <!-- Big Square for Text -->
-          <div class="bg-white p-8 rounded-lg mt-6 shadow-md shadow-black">
+          <div class="bg-white p-8 rounded-lg mt-6 shadow-md shadow-black mongo1">
             <p class="text-white"></p>
             <q-input v-model="textareaModel" filled clearable type="textarea" color="gray-800" label="Text Area"
               :shadow-text="textareaShadowText" @keydown="processTextareaFill" @focus="processTextareaFill" />
@@ -214,4 +213,16 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.mongos {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+
+.mongo1 {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+
+.img1 {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+}
+</style>

@@ -109,8 +109,8 @@
         </div>
         <!-- ... (existing code) ... -->
         <div class="flex items-center justify-end mt-6 w-full">
-          <button type="submit" id="createUnit" name="createUnit"
-            class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline text-sm">Create</button>
+          <button type="button" name="createUnit" id="createUnit" @click="createUnit" class=" bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg focus:outline-none
+            focus:shadow-outline text-sm">Create</button>
         </div>
       </q-form>
       <!-- Modal for Error Handling -->
@@ -131,7 +131,7 @@
                     </svg>
                   </div>
                   <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Error Registering</h3>
+                    <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Error Creating Unit</h3>
                     <div class="mt-2">
                       <p class="text-sm text-gray-500">Please fill out all fields.
                       </p>
@@ -199,8 +199,8 @@ export default {
       showModal: false,
       creationSuccess: false,
 
-      unitno: '',
       unitname: '',
+      unitno: '',
       unitstatus: '',
       unitposition: '',
       unitprice: '',
@@ -226,32 +226,7 @@ export default {
       this.sucModal = false
     },
 
-    async checkAllFieldsFilled() {
-      const requiredFields = [
-        'unitno',
-        'unitname',
-        'unitstatus',
-        'unitposition',
-        'unitprice',
-        'unittype',
-      ]
-
-      for (const field of requiredFields) {
-        if (!this[field].trim()) {
-          console.log(`All fields are required`)
-          this.errModal = true
-          return false
-        }
-      }
-    },
-
     async createUnit() {
-
-      const allFieldsFilled = await this.checkAllFieldsFilled()
-      if (!allFieldsFilled) {
-        return
-      }
-
       try {
         const response = await fetch('http://localhost/system-main/database/include/admin/createUnit.php', {
           method: 'POST',
@@ -259,33 +234,40 @@ export default {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            unitno: this.unitno,
             unitname: this.unitname,
+            unitno: this.unitno,
             unitstatus: this.unitstatus,
             unitposition: this.unitposition,
             unitprice: this.unitprice,
             unittype: this.unittype,
           })
-        })
-
-        console.log('Response:', response)
+        });
 
         if (response.ok) {
-          const responseData = await response.json()
-          this.sucModal = true
+          const responseData = await response.json();
+
           if (responseData.success) {
-            this.creationSuccess = true
+            this.sucModal = true;
+            fetchData();
+            console.log('success');
           } else {
-            this.creationError = responseData.message
+            // Check for the specific error message related to unitno existence
+            if (responseData.message === 'Unit with the same unitno already exists.') {
+              this.errModal = true;
+              this.creationError = responseData.message;
+            } else {
+              this.creationError = responseData.message || 'An error occurred during registration.';
+              console.error('Error during registration:', responseData.message);
+            }
           }
         } else {
-          this.creationError = 'An error occurred during registration.'
+          this.creationError = 'An error occurred during registration.';
+          console.error('Server returned an error:', response.status, response.statusText);
         }
       } catch (error) {
-        console.error('Error during registration:', error)
-        this.creationError = 'An error occurred during registration.'
+        console.error('Error during registration:', error);
+        this.creationError = 'An error occurred during registration.';
       }
-
     },
   },
 }

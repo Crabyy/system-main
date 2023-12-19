@@ -16,14 +16,14 @@
         </div>
 
         <div class="mt-3 relative">
-          <input type="password" v-model="password" id="password" name="password" placeholder="Password"
+          <input :type="showPassword ? 'text' : 'password'" v-model="password" id="password" name="password"
+            placeholder="Password"
             class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg" />
           <i class="fa-solid fa-lock absolute top-2 left-2 text-gray-500"></i>
-          <button @click.prevent="togglePasswordVisibility" class="absolute top-2 right-2 text-gray-500 cursor-pointer">
-            <i :class="passwordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'
-              "></i>
-          </button>
-
+          <i v-if="!showPassword" @click="togglePasswordVisibility"
+            class="fas fa-eye-slash absolute top-3 right-2 text-gray-500 cursor-pointer"></i>
+          <i v-if="showPassword" @click="togglePasswordVisibility"
+            class="fas fa-eye absolute top-3 right-2 text-gray-500 cursor-pointer"></i>
           <div class="mt-4">
             <button class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 text-base">
               Sign In
@@ -95,7 +95,7 @@ export default {
   data() {
     return {
       errModal: false,
-      passwordVisible: false,
+      showPassword: false,
       backgroundImage,
       username: "",
       password: "",
@@ -105,7 +105,7 @@ export default {
 
   beforeRouteEnter(to, from, next) {
     if (checkIfUserIsAuthenticated()) {
-      const userType = localStorage.getItem("userType");
+      const userType = sessionStorage.getItem("userType");
       if (userType === "admin") {
         next({ name: "Dashboard" });
       } else {
@@ -123,14 +123,7 @@ export default {
     },
 
     togglePasswordVisibility() {
-      const passwordInput = document.getElementById("password");
-      if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        this.passwordVisible = true;
-      } else {
-        passwordInput.type = "password";
-        this.passwordVisible = false;
-      }
+      this.showPassword = !this.showPassword;
     },
 
     async signin() {
@@ -156,9 +149,9 @@ export default {
 
           simulateLogin();
 
-          localStorage.setItem("userFirstName", responseData.userFirstName);
+          sessionStorage.setItem("userData", JSON.stringify(responseData.userData));
           if (responseData.userType) {
-            localStorage.setItem("userType", responseData.userType);
+            sessionStorage.setItem("userType", responseData.userType);
 
             if (responseData.userType === "admin") {
               this.$router.push({ name: "Dashboard" });
