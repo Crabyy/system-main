@@ -21,11 +21,12 @@ const routes = [
         name: "Dashboard",
         component: () => import("../components/Dashboard.vue"),
       },
-      {
-        path: "/AcquireUnit",
-        name: "AcquireUnit",
-        component: () => import("../components/AcquireUnit.vue"),
-      },
+      // {
+      //   path: "/AcquireUnit",
+      //   name: "AcquireUnit",
+      //   component: () => import("../components/AcquireUnit.vue"),
+      //   props: (route) => ({ unitData: route.params.unitData }),
+      // },
       {
         path: "/ClientAccount",
         name: "ClientAccountManagement",

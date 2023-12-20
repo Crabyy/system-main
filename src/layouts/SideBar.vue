@@ -48,7 +48,7 @@
               </q-item>
             </router-link>
 
-            <router-link to="/AcquireUnit">
+            <!-- <router-link to="/AcquireUnit">
               <q-item clickable v-ripple @click="selectItem('AquiringUnit')"
                 :class="{ 'q-item-active': selectedItem === 'AquiringUnit' }">
                 <q-item-section avatar>
@@ -56,7 +56,7 @@
                 </q-item-section>
                 <q-item-section> Acquiring Unit </q-item-section>
               </q-item>
-            </router-link>
+            </router-link> -->
 
             <router-link to="/ClientAccount">
               <q-item clickable v-ripple @click="selectItem('ClientAcc')"
@@ -78,17 +78,18 @@
               </q-item>
             </router-link>
 
-            <router-link to="/">
-              <q-item clickable v-ripple @click="logoutDashboard" :class="{ 'q-item-active': selectedItem === 'Logout' }">
-                <q-item-section avatar>
-                  <i class="fa-solid fa-right-from-bracket text-lg"></i>
-                </q-item-section>
-                <q-item-section> Log out </q-item-section>
-              </q-item>
-            </router-link>
             <!-- Add other router-links for your items -->
           </q-list>
         </q-scroll-area>
+
+        <router-link to="/" class="logout-link">
+          <q-item clickable v-ripple @click="logoutDashboard" :class="{ 'q-item-active': selectedItem === 'Logout' }">
+            <q-item-section avatar>
+              <i class="fa-solid fa-right-from-bracket text-lg"></i>
+            </q-item-section>
+            <q-item-section> Log out </q-item-section>
+          </q-item>
+        </router-link>
       </q-drawer>
 
       <q-page-container>
@@ -141,5 +142,13 @@ export default {
   /* Set the background color for the active state */
   color: #ffffff;
   /* Set the text color for the active state */
+}
+
+.logout-link {
+  position: absolute;
+  bottom: 20px;
+  /* Adjust the value as needed to fit your layout */
+  left: 20px;
+  /* Adjust the value as needed to fit your layout */
 }
 </style>

@@ -20,38 +20,19 @@
                   <div class="text-h2">One Bedroom</div>
                   <div class="text-subtitle1">Mountains</div>
                 </div>
-                <div>
-                  <a href="#" class="absolute bottom-2 right-3 text-gray-300 overflow-hidden" id="ChangeIcon"
-                    style="font-size: 1.3rem">
-                    <i class="fas fa-edit"></i>
-                    <input type="file" class="absolute bottom-2 right-1 text-gray-300 overflow-hidden cursor-pointer" />
-                  </a>
-                </div>
               </q-carousel-slide>
+
               <q-carousel-slide name="second" img-src="https://cdn.quasar.dev/img/parallax1.jpg">
                 <div class="absolute-bottom custom-caption">
                   <div class="text-h2">One Bedroom</div>
                   <div class="text-subtitle1">Famous City</div>
                 </div>
-                <div>
-                  <a href="#" class="absolute bottom-2 right-3 text-gray-300 overflow-hidden" id="ChangeIcon"
-                    style="font-size: 1.3rem">
-                    <i class="fas fa-edit"></i>
-                    <input type="file" class="absolute bottom-2 right-1 text-gray-300 overflow-hidden cursor-pointer" />
-                  </a>
-                </div>
               </q-carousel-slide>
+
               <q-carousel-slide name="third" img-src="https://cdn.quasar.dev/img/parallax2.jpg">
                 <div class="absolute-bottom custom-caption">
                   <div class="text-h2">One Bedroom</div>
                   <div class="text-subtitle1">Famous Bridge</div>
-                </div>
-                <div>
-                  <a href="#" class="absolute bottom-2 right-3 text-gray-300 overflow-hidden" id="ChangeIcon"
-                    style="font-size: 1.3rem">
-                    <i class="fas fa-edit"></i>
-                    <input type="file" class="absolute bottom-2 right-1 text-gray-300 overflow-hidden cursor-pointer" />
-                  </a>
                 </div>
               </q-carousel-slide>
             </q-carousel>
@@ -66,7 +47,7 @@
         </div>
       </form>
       <div class="flex items-center mt-6">
-        <button type="submit"
+        <button type="submit" v-if="userType === 'admin'"
           class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 ml-auto w rounded-lg focus:outline-none focus:shadow-outline">
           Save
         </button>
@@ -97,6 +78,12 @@ export default {
     },
     closeModal() {
       this.showModal = false;
+    },
+  },
+
+  computed: {
+    userType() {
+      return sessionStorage.getItem("userType");
     },
   },
 };

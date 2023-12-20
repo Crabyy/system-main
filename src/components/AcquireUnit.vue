@@ -4,39 +4,19 @@
       <div class="px-4 py-5 flex">
         <img src="src/assets/apartment.jpg" alt="Current Picture" class="object-cover object-center w-96 h-40" />
         <div class="grid ml-2">
-          <div>Unit no:</div>
-          <div>About:</div>
-          <div>Monthly Price:</div>
-          <div>Service Hotline:</div>
+          <div>Unit no: {{ selectedUnit.unitno }}</div>
+          <div>Unit Type: {{ selectedUnit.unittype }}</div>
+          <div>Monthly Price: {{ selectedUnit.unitprice.toLocaleString() }}</div>
         </div>
       </div>
     </div>
     <div class="bg-gray-700 text-lg rounded-lg ml-3 mx-2 flex justify-between items-center">
       <div class="ml-4 flex">
         Confirmation:
-        {{
-          modeOfStay === "Reserve"
-          ? "Reserve"
-          : modeOfStay === "Rent"
-            ? "Rent"
-            : ""
-        }}
       </div>
     </div>
     <!-- Confirmation-->
-    <div class="flex justify-start mx-2 my-2">
-      <div class="flex flex-col items-center">
-        <p>Your Information:</p>
-        <!-- BLANK BOX -->
-        <div class="bg-gray-700 w-80 h-32 mt-1 mb-5 ml-2"></div>
-      </div>
 
-      <div class="flex flex-col items-center ml-2">
-        <p>Bill:</p>
-        <!-- BLANK BOX -->
-        <div class="bg-gray-700 w-80 h-32 mt-1 mb-5"></div>
-      </div>
-    </div>
     <!-- Payment Method -->
     <div class="flex justify-center">
       <h1 class="text-xl text-bold mt-2">PAYMENT METHOD: {{}}</h1>
