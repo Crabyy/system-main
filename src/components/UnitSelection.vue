@@ -20,27 +20,19 @@
         </div>
       </q-carousel-slide>
     </q-carousel>
-    <a href="#" class="absolute bottom-6 right-6 text-gray-300 hover:text-white" id="changePicture"
-      style="font-size: 1.5rem" @click.prevent="openStudioUnit">
-      <i class="fas fa-edit" v-if="userType === 'admin'"></i>
-    </a>
   </div>
-
-
-  <StudioUnitModal ref="studioUnitModal" />
 
   <!-- Table -->
   <div class="q-md">
     <q-btn class="q-ml-md mb-3" color="primary" label="Create" @click.prevent="openCreateUnit"
       v-if="userType === 'admin'" />
-    <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
-      :rows-per-page-options="[5]" :virtual-scroll-sticky-size-start="48" row-key="id" :rows="rows" :columns="columns">
+    <q-table class="my-sticky-virtscroll-table" :virtual-scroll="false" :rows-per-page-options="[5]"
+      :virtual-scroll-sticky-size-start="48" row-key="id" :rows="rows" :columns="columns">
 
       <template v-slot:body-cell-action="props">
         <q-td :props="props">
           <q-btn v-if="userType === 'admin'" label="Remove" color="negative" @click="removeRow(props.row)"
             class="m-0.5" />
-          <q-btn v-if="userType === 'admin'" label="Edit" color="green" class="m-0.5"></q-btn>
           <q-btn v-if="userType === 'user'" label="Rent" color="blue" class="m-0.5"></q-btn>
           <q-btn v-if="userType === 'user'" label="Reserve" color="green" class="m-0.5"></q-btn>
         </q-td>
@@ -49,7 +41,6 @@
   </div>
 
   <createUnit ref="createUnit" />
-
 
   <!-- Custom Modal for Removing a Unit -->
   <div v-if="removeDialogVisible" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -92,14 +83,12 @@
 </template>
 
 <script>
-import StudioUnitModal from "src/pages/UnitSelectModal/StudioUnitModal.vue";
 import { ref, onMounted } from "vue";
 import createUnit from "src/pages/createUnit.vue"
 
 export default {
 
   components: {
-    StudioUnitModal,
     createUnit,
   },
 
@@ -118,18 +107,11 @@ export default {
       this.showCreateUnit = false;
     },
 
-    editUnit() {
-      // Implement logic for handling the Edit action
-      console.log('Edit button clicked');
-    },
-
     rentUnit() {
-      // Implement logic for handling the Rent action
       console.log('Rent button clicked');
     },
 
     reserveUnit() {
-      // Implement logic for handling the Reserve action
       console.log('Reserve button clicked');
     },
 

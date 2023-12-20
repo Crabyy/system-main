@@ -1,56 +1,62 @@
 <template>
   <div>
-    <div class="row flex flex-col">
+    <div class="row flex flex-col select-none">
       <!-- Container 1: TITLE AND PICTURE -->
       <div class="relative">
         <q-toolbar>
           <q-toolbar-title v-if="userType === 'user'">Dashboard</q-toolbar-title>
           <q-toolbar-title v-if="userType === 'admin'">Admin Dashboard</q-toolbar-title>
         </q-toolbar>
-        <div class="relative rounded-lg mx-auto overflow-hidden shadow-md shadow-black"
-          style="height: 250px; width: 100%">
+        <div class="relative rounded-lg mx-auto overflow-hidden shadow-black cursor-pointer title"
+          style="height: 250px; width: 100%" @click.prevent="openModal">
           <!-- Set your desired height and width -->
           <!-- Set your desired height -->
           <img src="src/assets/apartment.jpg" alt="Current Picture" class="object-cover object-center w-full h-full" />
-          <!-- EDIT ICON -->
-          <a href="#" class="absolute bottom-4 right-4 text-gray-300 hover:text-white" id="changePicture"
-            style="font-size: 1.5rem" @click.prevent="openModal">
-            <i class="fas fa-edit" v-if="userType === 'admin'"></i>
-          </a>
+          <!-- TITLE -->
+          <div
+            class="absolute bottom-4 left-4 rounded-e-sm text-2xl text-white rounded-md bg-gradient-to-b from-gray-500 to-gray-800">
+            Apartment Name
+          </div>
         </div>
       </div>
 
       <div>
         <div class="row flex flex-col">
           <div class="flex">
-            <!-- Container 1: First Image -->
-            <div class="rounded-lg mt-10 m-auto ml-0 relative overflow-hidden shadow-md shadow-black"
+            <!-- Container 1: Studio Unit -->
+            <div class="rounded-lg mt-10 m-auto ml-0 relative overflow-hidden shadow-md shadow-black cursor-pointer title"
               style="width: 400px; height: 250px; margin-right: 20px">
-              <img src="src/assets/unitStudio.jpg" alt="Studio Unit" class="object-cover object-center w-full h-full" />
-              <a href="#" class="absolute bottom-4 right-4 text-gray-300 hover:text-white" id="changePicture"
-                style="font-size: 1.5rem" @click="openStudio">
-                <i class="fas fa-edit" v-if="userType === 'admin'"></i>
-              </a>
+              <img src="src/assets/unitStudio.jpg" alt="Studio Unit" class="object-cover object-center w-full h-full"
+                @click="openStudio" />
+              <!-- studio name -->
+              <div
+                class="absolute bottom-4 left-4 rounded-e-sm text-2xl text-white rounded-md bg-gradient-to-b from-gray-500 to-gray-800">
+                Studio Unit
+              </div>
             </div>
 
-            <!-- Container 2: Second Image -->
-            <div class="rounded-lg mt-10 m-auto ml-0 relative overflow-hidden shadow-md shadow-black"
+            <!-- Container 2: One Bed Unit -->
+            <div class="rounded-lg mt-10 m-auto ml-0 relative overflow-hidden shadow-md shadow-black cursor-pointer title"
               style="width: 400px; height: 250px">
-              <img src="src/assets/onebed.jpg" alt="OneBed" class="object-cover object-center w-full h-full" />
-              <a href="#" class="absolute bottom-4 right-4 text-gray-300 hover:text-white" id="changePicture"
-                style="font-size: 1.5rem" @click="openOne">
-                <i class="fas fa-edit" v-if="userType === 'admin'"></i>
-              </a>
+              <img src="src/assets/onebed.jpg" alt="OneBed" class="object-cover object-center w-full h-full"
+                @click="openOne" />
+              <!-- One Bed name -->
+              <div
+                class="absolute bottom-4 left-4 rounded-e-sm text-2xl text-white rounded-md bg-gradient-to-b from-gray-500 to-gray-800">
+                One Bedroom
+              </div>
             </div>
 
-            <!-- Container 3: Third Image -->
-            <div class="rounded-lg mt-10 m-auto ml-0 relative overflow-hidden shadow-md shadow-black"
+            <!-- Container 3: Two Bed Unit -->
+            <div class="rounded-lg mt-10 m-auto ml-0 relative overflow-hidden shadow-md shadow-black cursor-pointer title"
               style="width: 400px; height: 250px">
-              <img src="src/assets/twobed.jpeg" alt="twoBed" class="object-cover object-center w-full h-full" />
-              <a href="#" class="absolute bottom-4 right-4 text-gray-300 hover:text-white" id="changePicture"
-                style="font-size: 1.5rem" @click="openTwo">
-                <i class="fas fa-edit" v-if="userType === 'admin'"></i>
-              </a>
+              <img src="src/assets/twobed.jpeg" alt="twoBed" class="object-cover object-center w-full h-full"
+                @click="openTwo" />
+              <!-- Two bed Name -->
+              <div
+                class="absolute bottom-4 left-4 rounded-e-sm text-2xl text-white rounded-md bg-gradient-to-b from-gray-500 to-gray-800">
+                Two Bedrooms
+              </div>
             </div>
           </div>
         </div>
@@ -78,7 +84,6 @@ export default {
     TwoBedModal,
   },
   methods: {
-
     openModal() {
       this.$refs.modalPicture.openModal();
     },
@@ -95,10 +100,14 @@ export default {
 
   computed: {
     userType() {
-      return sessionStorage.getItem('userType')
-    }
-  }
+      return sessionStorage.getItem("userType");
+    },
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.title {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+</style>

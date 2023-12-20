@@ -110,7 +110,7 @@
         <!-- ... (existing code) ... -->
         <div class="flex items-center justify-end mt-6 w-full">
           <button type="button" name="createUnit" id="createUnit" @click="createUnit" class=" bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg focus:outline-none
-            focus:shadow-outline text-sm">Create</button>
+              focus:shadow-outline text-sm">Create</button>
         </div>
       </q-form>
       <!-- Modal for Error Handling -->
@@ -215,6 +215,13 @@ export default {
 
     closeModal() {
       this.showModal = false
+
+      this.unitname = '',
+        this.unitno = '',
+        this.unitstatus = '',
+        this.unitposition = '',
+        this.unitprice = '',
+        this.unittype = ''
     },
 
     deacModal() {
@@ -224,6 +231,15 @@ export default {
     backTo() {
       this.showModal = false
       this.sucModal = false
+
+      window.location.reload();
+
+      this.unitname = '',
+        this.unitno = '',
+        this.unitstatus = '',
+        this.unitposition = '',
+        this.unitprice = '',
+        this.unittype = ''
     },
 
     async createUnit() {
@@ -248,7 +264,6 @@ export default {
 
           if (responseData.success) {
             this.sucModal = true;
-            fetchData();
             console.log('success');
           } else {
             // Check for the specific error message related to unitno existence
