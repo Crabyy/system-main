@@ -79,7 +79,10 @@
               <input :type="showPassword ? 'text' : 'password'" v-model="currentPassword" name="Current Password"
                 id="Current Password"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 dark:border-gray-500 dark:placeholder-gray-400"
-                placeholder="Current Password" required />
+                placeholder="Current Password" />
+              <div v-if="passwordError" class="text-red-500 mt-1">
+                {{ passwordError }}
+              </div>
               <i v-if="!showPassword" @click="togglePasswordVisibility"
                 class="fas fa-eye-slash absolute top-3 right-2 text-gray-500 cursor-pointer"></i>
               <i v-if="showPassword" @click="togglePasswordVisibility"
@@ -89,8 +92,10 @@
             <div class="relative">
               <input :type="showNewPassword ? 'text' : 'password'" v-model="newPassword" name="New password"
                 id="New password" placeholder="New Password"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 dark:border-gray-500 dark:placeholder-gray-400"
-                required />
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 dark:border-gray-500 dark:placeholder-gray-400" />
+              <div v-if="newPasswordError" class="text-red-500 mt-1">
+                {{ newPasswordError }}
+              </div>
               <i v-if="!showNewPassword" @click="toggleNewPasswordVis"
                 class="fas fa-eye-slash absolute top-3 right-2 text-gray-500 cursor-pointer"></i>
               <i v-if="showNewPassword" @click="toggleNewPasswordVis"
@@ -98,10 +103,12 @@
             </div>
 
             <div class="relative">
-              <input :type="showReNewPassword ? 'text' : 'password'" name="Confirm password" id="Confirm password"
-                placeholder="Confirm Password"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 dark:border-gray-500 dark:placeholder-gray-400"
-                required />
+              <input :type="showReNewPassword ? 'text' : 'password'" v-model="confirmNewPassword" name="Confirm password"
+                id="Confirm password" placeholder="Confirm Password"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 dark:border-gray-500 dark:placeholder-gray-400" />
+              <div v-if="confirmNewPasswordError" class="text-red-500 mt-1">
+                {{ confirmNewPasswordError }}
+              </div>
               <i v-if="!showReNewPassword" @click="toggleReNewPasswordVis"
                 class="fas fa-eye-slash absolute top-3 right-2 text-gray-500 cursor-pointer"></i>
               <i v-if="showReNewPassword" @click="toggleReNewPasswordVis"
@@ -136,6 +143,10 @@ export default {
       showNewPassword: false,
       showReNewPassword: false,
 
+      passwordError: null,
+      newPasswordError: null,
+      confirmNewPasswordError: null,
+
       profileName: "",
       age: "",
       givenName: "",
@@ -146,8 +157,10 @@ export default {
       email: "",
       username: "",
       contactNumber: "",
+
       currentPassword: "",
       newPassword: "",
+      confirmNewPassword: "",
     };
   },
 
@@ -165,6 +178,10 @@ export default {
     // Function to close the modal
     closeModal() {
       this.hideModal();
+
+      this.currentPassword = "";
+      this.newPassword = "";
+      this.passwordError = null;
     },
     openModal() {
       // Access the RegisterModal component using the ref and call its openModal method
@@ -182,7 +199,34 @@ export default {
       this.showReNewPassword = !this.showReNewPassword;
     },
 
+    validatePassword() {
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.$!%*?&,]).{8,}$/;
+
+      if (!passwordRegex.test(this.newPassword)) {
+        if (this.newPassword.length < 8) {
+          this.newPasswordError = 'Password must be at least 8 characters long.';
+        } else {
+          this.newPasswordError = 'Use a strong password with at least one lowercase letter, uppercase letter, number, and special character.';
+        }
+        return false;
+      }
+      // Check if the new password and confirm new password match
+      if (this.newPassword !== this.confirmNewPassword) {
+        this.confirmNewPasswordError = 'Password does not match.';
+        return false;
+      }
+
+      this.newPasswordError = '';
+      this.confirmNewPasswordError = '';
+      return true;
+    },
+
     async changePassword() {
+
+      if (!this.validatePassword()) {
+        return; // Stop the process if the password is not valid
+      }
+
       try {
         const response = await axios.post("http://localhost/system-main/database/include/pass_inc.php", {
           id: this.userData.id,
@@ -192,15 +236,22 @@ export default {
         });
 
         if (response.data.success) {
-          // Password changed successfully, you can handle this as needed (show a message, close the modal, etc.)
+          // Password changed successfully, you can handle this as needed
           console.log("Password changed successfully");
-          this.hideModal(); // You may want to close the modal
+          this.hideModal();
+
+          this.currentPassword = "";
+          this.newPassword = "";
+          this.passwordError = null;
         } else {
           // Handle the case where password change was not successful
           console.error(response.data.message);
+          this.passwordError = "Current Password is not correct.";
+          return false;
         }
       } catch (error) {
         console.error("An error occurred", error);
+        this.passwordError = "An error occurred while changing the password.";
       }
     },
 

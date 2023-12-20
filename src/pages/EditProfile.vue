@@ -17,32 +17,45 @@
 
           <div class="mt-3 relative">
             <input type="text" v-model="givenname" id="givenname" name="givenname" placeholder="Given Name"
+              @change="validateName(givenname, 'GivenName')"
               class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg">
             <i class="fa-solid fa-user absolute top-3 left-2 text-gray-500"></i>
+            <div v-if="errors.givenname" class="text-red-500 text-sm mt-1 text-left ml-3">{{
+              errors.givenname }}</div>
           </div>
 
           <div class="mt-3 relative">
             <input type="text" v-model="middlename" id="middlename" name="middlename" placeholder="Middle Name"
+              @change="validateName(middlename, 'MiddleName')"
               class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg">
             <i class="fa-solid fa-user absolute top-3 left-2 text-gray-500"></i>
+            <div v-if="errors.middlename" class="text-red-500 text-sm mt-1 text-left ml-3">{{
+              errors.middlename }}</div>
           </div>
 
           <div class="mt-3 relative">
             <input type="text" v-model="surname" id="surname" name="surname" placeholder="Surname"
+              @change="validateName(surname, 'Surname')"
               class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg">
             <i class="fa-solid fa-user absolute top-3 left-2 text-gray-500"></i>
+            <div v-if="errors.surname" class="text-red-500 text-sm mt-1 text-left ml-3">{{
+              errors.surname }}</div>
           </div>
 
           <div class="mt-3 relative">
-            <input type="text" v-model="email" id="Email" placeholder="Email"
+            <input type="text" v-model="email" id="Email" placeholder="Email" @change="validateEmail"
               class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg" />
             <i class="fa-solid fa-envelope absolute top-3 left-2 text-gray-500"></i>
+            <div v-if="errors.emailError" class="text-red-500 text-sm mt-1 text-left ml-3">{{
+              errors.emailError }}</div>
           </div>
 
           <div class="mt-3 relative">
-            <input type="text" v-model="username" id="username" placeholder="Username"
+            <input type="text" v-model="username" id="username" placeholder="Username" @change="validateUsername"
               class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg" />
             <i class="fa-solid fa-user absolute top-3 left-2 text-gray-500"></i>
+            <div v-if="errors.username" class="text-red-500 text-sm mt-1 text-left ml-3">
+              {{ errors.username }}</div>
           </div>
 
         </div>
@@ -50,15 +63,20 @@
           <!-- Fields for the second column -->
 
           <div class="mt-3 relative">
-            <input type="text" v-model="contactnumber" id="contactnumber" placeholder="Contact Number"
+            <input type="text" v-model="contactnumber" id="contactnumber" @change="validateContactNumber"
+              placeholder="Contact Number"
               class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg" />
             <i class="fa-solid fa-mobile-screen absolute top-3 left-2 text-gray-500"></i>
+            <div v-if="errors.contactnumber" class="text-red-500 text-sm mt-1 text-left ml-3">{{
+              errors.contactnumber }}</div>
           </div>
 
           <div class="mt-3 relative">
-            <input type="date" v-model="birthdate" id="birthdate"
+            <input type="date" v-model="birthdate" id="birthdate" @change="validateBirthdate"
               class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg text-gray-400" />
             <i class="fa-solid fa-calendar absolute top-3 left-2 text-gray-500"></i>
+            <div v-if="errors.birthdateError" class="text-red-500 text-sm mt-1 text-left ml-3">{{
+              errors.birthdateError }}</div>
           </div>
 
           <div class="mt-3 relative">
@@ -152,6 +170,17 @@ export default {
       contactnumber: "",
       birthdate: "",
       gender: "",
+
+      errors: {
+        givenname: '',
+        middlename: '',
+        surname: '',
+        username: '',
+        emailError: '',
+        contactnumber: '',
+        birthdateError: '',
+      },
+
     };
   },
 
@@ -159,11 +188,129 @@ export default {
     openModal() {
       this.showModal = true;
     },
+
     closeModal() {
       this.showModal = false;
     },
+
+    validateName(name, fieldName) {
+      const nameRegex = /^[a-zA-Z\sñÑ]+$/; // Allow letters, spaces, and "ñ" characters
+      if (!nameRegex.test(name.trim())) {
+        this.errors[fieldName.toLowerCase()] = `Invalid ${fieldName}`;
+        return false;
+      }
+      this.errors[fieldName.toLowerCase()] = '';
+      return true;
+    },
+
+    validateEmail() {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailRegex.test(this.email.trim())) {
+        // console.log('Invalid email format')
+        this.errors.emailError = 'Please enter a valid Email'
+        return false
+      }
+      this.errors.emailError = ''
+      return true
+    },
+
+    validateUsername() {
+      const usernameRegex = /^[a-zA-Z0-9_]+$/
+      if (!usernameRegex.test(this.username.trim())) {
+        // console.log('Invalid username format')
+        this.errors.username = 'Invalid Username'
+        return false
+      }
+      this.errors.username = ''
+      return true
+    },
+
+    validateContactNumber() {
+      const contactNumberRegex = /^[0-9]+$/; // Only numeric values allowed
+      const trimmedContactNumber = this.contactnumber.trim();
+
+      if (!contactNumberRegex.test(trimmedContactNumber)) {
+        this.errors.contactnumber = 'Invalid Contact Number';
+        return false;
+      }
+
+      if (trimmedContactNumber.length < 11) {
+        this.errors.contactnumber = 'Contact number must be at least 11 digits';
+        return false;
+      }
+
+      if (trimmedContactNumber.length > 11) {
+        this.errors.contactnumber = 'Contact number must not exceed 11 digits';
+        return false;
+      }
+      this.errors.contactnumber = '';
+      return true;
+    },
+
+    validateBirthdate() {
+      const currentDate = new Date()
+      const enteredDate = new Date(this.birthdate)
+
+      if (enteredDate > currentDate) {
+        this.errors.birthdateError = 'Please enter a valid Birth Date'
+      } else {
+        this.errors.birthdateError = ''
+      }
+    },
+
+    async checkAllFieldsFilled() {
+      const requiredFields = [
+        'givenname',
+        'middlename',
+        'surname',
+        'email',
+        'username',
+        'contactnumber',
+        'birthdate',
+        'gender'
+      ]
+
+      for (const field of requiredFields) {
+        if (!this[field].trim()) {
+          console.log(`All fields are required`)
+          this.errModal = true
+          return false
+        }
+      }
+
+      if (!this.validateName(this.givenname, 'Given Name')) {
+        return false
+      }
+
+      if (!this.validateName(this.middlename, 'Middle Name')) {
+        return false
+      }
+
+      if (!this.validateName(this.surname, 'Surname')) {
+        return false
+      }
+      if (!this.validateUsername()) {
+        return false
+      }
+
+      if (!this.validateEmail()) {
+        return false
+      }
+
+      if (!this.validateContactNumber()) {
+        return false
+      }
+
+      return true
+    },
+
     async editProfile() {
       try {
+
+        if (!this.checkAllFieldsFilled()) {
+          return;
+        }
+
         // Ensure this.userData and this.userData.id are defined
         if (this.userData && this.userData.id) {
           const response = await axios.post("http://localhost/system-main/database/include/user/editProfile.php", {
