@@ -1,5 +1,3 @@
-https://drive.google.com/file/d/1Po1JamirIO-_LWTRFvUqxv4yvXORyhVh/view
-
 # Apartment System (system)
 
 Apartment System
