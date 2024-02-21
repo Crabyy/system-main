@@ -1,6 +1,6 @@
 <template>
   <div v-if="modalVisible" class="fixed inset-0 z-10 flex items-center justify-center">
-    <div class="bg-gray-500 bg-opacity-75 fixed inset-0"></div>
+    <div class="bg-gray-500 bg-opacity-75 fixed inset-0" @click="closeModal"></div>
 
     <div class="bg-gray-800 text-white w-[auto] min-h-fit rounded-lg select-none">
       <!-- Payment Method -->

@@ -462,35 +462,7 @@ export default {
           return
         }
 
-        const checkResponse = await fetch('http://localhost/system-main/database/include/user/register_inc.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            username: this.username,
-            email: this.email
-          })
-        })
-
-        if (!checkResponse.ok) {
-          console.error('Error checking username or email existence')
-          return
-        }
-
-        const checkData = await checkResponse.json()
-
-        if (checkData.exists) {
-          console.log('Username or email already exists')
-          if (checkData.field === 'username') {
-            this.errors.registrationError = 'username'
-            this.errors.registrationError = ''; // Reset email error
-          } else if (checkData.field === 'email') {
-            this.errors.registrationError = 'email'
-            this.errors.registrationError = '' // Reset username error
-          }
-          return
-        }
+        w
 
         const response = await fetch('http://localhost/system-main/database/api/user/register.php', {
           method: 'POST',

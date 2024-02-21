@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $unitname = $requestData['unitname'];
   $unitno = $requestData['unitno'];
-  $unitstatus = $requestData['unitstatus'];
+  // $unitstatus = $requestData['unitstatus'];
   $unitposition = $requestData['unitposition'];
   $unitprice = $requestData['unitprice'];
   $unittype = $requestData['unittype'];
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Unitno doesn't exist, proceed with insertion
     $status = 1;
 
-    $sql = "INSERT INTO units (unitname, unitno, unitstatus, unitposition, unitprice, unittype, status) VALUES ('$unitname', '$unitno', '$unitstatus', '$unitposition', '$unitprice', '$unittype', '$status')";
+    $sql = "INSERT INTO units (unitname, unitno, unitposition, unitprice, unittype, status) VALUES ('$unitname', '$unitno', '$unitposition', '$unitprice', '$unittype', '$status')";
 
     if ($conn->query($sql) === TRUE) {
       echo json_encode(['success' => true]);

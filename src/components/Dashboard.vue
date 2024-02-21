@@ -13,9 +13,8 @@
           <!-- Set your desired height -->
           <img src="src/assets/apartment.jpg" alt="Current Picture" class="object-cover object-center w-full h-full" />
           <!-- TITLE -->
-          <div
-            class="absolute bottom-4 left-4 rounded-e-sm text-2xl text-white rounded-md bg-gradient-to-b from-gray-500 to-gray-800">
-            Apartment Name
+          <div class="absolute bottom-4 left-4 rounded-e-sm text-2xl text-white rounded-md  custom-caption">
+            Pang-Kape Apartment
           </div>
         </div>
       </div>
@@ -29,8 +28,7 @@
               <img src="src/assets/unitStudio.jpg" alt="Studio Unit" class="object-cover object-center w-full h-full"
                 @click="openStudio" />
               <!-- studio name -->
-              <div
-                class="absolute bottom-4 left-4 rounded-e-sm text-2xl text-white rounded-md bg-gradient-to-b from-gray-500 to-gray-800">
+              <div class="absolute bottom-4 left-4 rounded-e-sm text-2xl text-white rounded-md  custom-caption">
                 Studio Unit
               </div>
             </div>
@@ -41,8 +39,7 @@
               <img src="src/assets/onebed.jpg" alt="OneBed" class="object-cover object-center w-full h-full"
                 @click="openOne" />
               <!-- One Bed name -->
-              <div
-                class="absolute bottom-4 left-4 rounded-e-sm text-2xl text-white rounded-md bg-gradient-to-b from-gray-500 to-gray-800">
+              <div class="absolute bottom-4 left-4 rounded-e-sm text-2xl text-white rounded-md  custom-caption">
                 One Bedroom
               </div>
             </div>
@@ -53,8 +50,7 @@
               <img src="src/assets/twobed.jpeg" alt="twoBed" class="object-cover object-center w-full h-full"
                 @click="openTwo" />
               <!-- Two bed Name -->
-              <div
-                class="absolute bottom-4 left-4 rounded-e-sm text-2xl text-white rounded-md bg-gradient-to-b from-gray-500 to-gray-800">
+              <div class="absolute bottom-4 left-4 rounded-e-sm text-2xl text-white rounded-md  custom-caption">
                 Two Bedrooms
               </div>
             </div>
@@ -109,5 +105,12 @@ export default {
 <style scoped>
 .title {
   box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+
+.custom-caption {
+  text-align: center;
+  padding: 2px;
+  color: white;
+  background-color: rgba(0, 0, 0, .3);
 }
 </style>

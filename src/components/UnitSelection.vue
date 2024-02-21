@@ -179,15 +179,15 @@ export default {
         align: "left",
         sortable: true,
       },
-      {
-        name: "unitstatus",
-        required: true,
-        label: "Status",
-        field: "unitstatus",
-        format: (val) => `${val}`,
-        align: "left",
-        sortable: true,
-      },
+      // {
+      //   name: "unitstatus",
+      //   required: true,
+      //   label: "Status",
+      //   field: "unitstatus",
+      //   format: (val) => `${val}`,
+      //   align: "left",
+      //   sortable: true,
+      // },
       {
         name: "unitposition",
         required: true,
@@ -288,6 +288,7 @@ export default {
 
         if (response.ok) {
           console.log(result.message);
+          window.location.reload();
         } else {
           console.error(result.error);
         }

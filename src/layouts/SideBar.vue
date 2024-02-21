@@ -58,9 +58,9 @@
               </q-item>
             </router-link> -->
 
-            <router-link to="/ClientAccount">
+            <router-link to="/ClientAccount" v-if="userType === 'admin'">
               <q-item clickable v-ripple @click="selectItem('ClientAcc')"
-                :class="{ 'q-item-active': selectedItem === 'ClientAcc' }" v-if="userType === 'admin'">
+                :class="{ 'q-item-active': selectedItem === 'ClientAcc' }">
                 <q-item-section avatar>
                   <i class="fa-solid fa-users text-lg"></i>
                 </q-item-section>
@@ -68,13 +68,24 @@
               </q-item>
             </router-link>
 
-            <router-link to="/AdminAccount">
+            <router-link to="/AdminAccount" v-if="userType === 'admin'">
               <q-item clickable v-ripple @click="selectItem('AdminAcc')"
-                :class="{ 'q-item-active': selectedItem === 'AdminAcc' }" v-if="userType === 'admin'">
+                :class="{ 'q-item-active': selectedItem === 'AdminAcc' }">
                 <q-item-section avatar>
                   <i class="fa-solid fa-user-tie text-lg"></i>
                 </q-item-section>
                 <q-item-section> Admin Account </q-item-section>
+              </q-item>
+            </router-link>
+
+            <!-- UNIT OCCUPIED -->
+            <router-link to="/UnitOccupied" v-if="userType === 'admin'">
+              <q-item clickable v-ripple @click="selectItem('UnitOccupied')"
+                :class="{ 'q-item-active': selectedItem === 'UnitOccupied' }">
+                <q-item-section avatar>
+                  <i class="fa-solid fa-building text-lg"></i>
+                </q-item-section>
+                <q-item-section> Unit Occupied </q-item-section>
               </q-item>
             </router-link>
 

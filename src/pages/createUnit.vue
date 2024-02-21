@@ -17,8 +17,14 @@
         <div class="w-full sm:w-1/2">
           <!-- Fields for the first column -->
           <div class="mt-3 relative">
-            <input type="text" v-model="unitno" id="unitno" name="unitno" placeholder="Unit No."
+            <input type="text" v-model="unitno" id="unitno" name="unitno" placeholder="Unit No." @change="validateUnitNo"
               class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg">
+            <div v-if="unitnoError && unitno !== ''" class="text-red-500 text-sm mt-1 text-left ml-3">
+              {{ unitnoError }}
+            </div>
+            <div v-if="unitnoExistError" class="text-red-500 text-sm mt-1 text-left ml-3">
+              {{ unitnoExistError }}
+            </div>
           </div>
 
           <div class="mt-3 relative">
@@ -26,7 +32,7 @@
               class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg">
           </div>
 
-          <div class="mt-3 relative">
+          <!-- <div class="mt-3 relative">
             <label for="unitstatus" class="block text-base text-left font-medium text-gray-700 mb-2 ml-3">Status</label>
             <div class="flex items-center">
               <div class="flex items-center">
@@ -47,12 +53,7 @@
                 </label>
               </div>
             </div>
-          </div>
-
-        </div>
-
-        <!-- second colmmn -->
-        <div class="w-full sm:w-1/2 pl-4">
+          </div> -->
 
           <div class="mt-3 relative">
             <label for="unitposition"
@@ -77,6 +78,11 @@
               </div>
             </div>
           </div>
+
+        </div>
+
+        <!-- second colmmn -->
+        <div class="w-full sm:w-1/2 pl-4">
 
           <div class="mt-3 relative">
             <input type="text" v-model="unitprice" id="unitprice" name="unitprice" placeholder="Monthly Price"
@@ -164,8 +170,7 @@
                     </svg>
                   </div>
                   <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Registered Succesfully
-                    </h3>
+                    <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Successfully Created</h3>
                     <div class="mt-2">
                       <p class="text-sm text-gray-500">You can now go back. Thank you for
                         registering.
@@ -201,10 +206,13 @@ export default {
 
       unitname: '',
       unitno: '',
-      unitstatus: '',
+      // unitstatus: '',
       unitposition: '',
       unitprice: '',
-      unittype: ''
+      unittype: '',
+
+      unitnoError: '',
+      unitnoExistError: '',
     }
   },
 
@@ -218,7 +226,7 @@ export default {
 
       this.unitname = '',
         this.unitno = '',
-        this.unitstatus = '',
+        // this.unitstatus = '',
         this.unitposition = '',
         this.unitprice = '',
         this.unittype = ''
@@ -231,18 +239,84 @@ export default {
     backTo() {
       this.showModal = false
       this.sucModal = false
-
       window.location.reload();
 
       this.unitname = '',
         this.unitno = '',
-        this.unitstatus = '',
+        // this.unitstatus = '',
         this.unitposition = '',
         this.unitprice = '',
         this.unittype = ''
     },
 
+    validateFields() {
+      // Check if any field is empty
+      if (
+        !this.unitname ||
+        !this.unitno ||
+        !this.unitposition ||
+        !this.unitprice ||
+        !this.unittype
+      ) {
+        this.errModal = true;
+        return false;
+      }
+
+      // Reset the empty field error if all fields are filled
+      this.errModal = false;
+      return true;
+    },
+
+    async validateUnitNo() {
+      const unitNoRegex = /^[0-9]+$/; // Only numeric values allowed
+
+      if (!unitNoRegex.test(this.unitno)) {
+        this.unitnoError = 'Invalid Unit Number';
+        return false;
+      }
+
+      // Reset the error messages
+      this.unitnoError = '';
+      this.unitnoExistError = '';
+
+      // Check if the unit number already exists
+      try {
+        const response = await fetch('http://localhost/system-main/database/include/admin/checkUnitNo.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            unitno: this.unitno,
+          }),
+        });
+
+        if (response.ok) {
+          const responseData = await response.json();
+
+          if (responseData.exists) {
+            this.unitnoExistError = 'Unit No. already exists.';
+          }
+        } else {
+          console.error('Server returned an error:', response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error('Error checking unit number:', error);
+      }
+
+      return true;
+    },
+
     async createUnit() {
+
+      if (!this.validateFields()) {
+        return false;
+      }
+
+      if (!this.validateUnitNo()) {
+        return false
+      }
+
       try {
         const response = await fetch('http://localhost/system-main/database/include/admin/createUnit.php', {
           method: 'POST',
@@ -252,7 +326,7 @@ export default {
           body: JSON.stringify({
             unitname: this.unitname,
             unitno: this.unitno,
-            unitstatus: this.unitstatus,
+            // unitstatus: this.unitstatus,
             unitposition: this.unitposition,
             unitprice: this.unitprice,
             unittype: this.unittype,
@@ -264,11 +338,11 @@ export default {
 
           if (responseData.success) {
             this.sucModal = true;
+
             console.log('success');
           } else {
             // Check for the specific error message related to unitno existence
             if (responseData.message === 'Unit with the same unitno already exists.') {
-              this.errModal = true;
               this.creationError = responseData.message;
             } else {
               this.creationError = responseData.message || 'An error occurred during registration.';

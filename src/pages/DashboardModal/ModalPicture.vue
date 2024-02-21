@@ -16,35 +16,20 @@
           <div class="relative rounded-lg mx-auto mt-4 shadow-black img1">
             <img :src="imagePath" alt="Rectangular Picture" class="object-cover object-center w-full h-48 rounded-lg" />
             <input ref="fileInput" type="file" style="display: none" @change="handleFileChange" />
-            <!-- EDIT ICON -->
-            <div>
-              <a href="#" class="absolute bottom-2 right-1 text-gray-300 overflow-hidden" id="ChangeIcon"
-                style="font-size: 1.3rem">
-                <i class="fas fa-edit" v-if="userType === 'admin'"></i>
-                <input type="file" class="absolute bottom-2 right-1 text-gray-300 overflow-hidden cursor-pointer" />
-              </a>
-            </div>
-            <!-- Unit Name -->
-            <div class="mt-3 absolute bottom-0 left-2">
-              <input v-if="userType === 'admin'" type="text" id="title" placeholder="Apartment Name"
-                class="block mb-2 border w-full text-base px-2 py-1 pl-8 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-lg" />
-            </div>
           </div>
 
           <!-- Big Square for Text -->
-          <div class="bg-white p-8 rounded-lg mt-6 shadow-md shadow-black mongo1">
-            <p class="text-white"></p>
-            <q-input v-model="textareaModel" filled clearable type="textarea" color="gray-800" label="Text Area"
-              :shadow-text="textareaShadowText" @keydown="processTextareaFill" @focus="processTextareaFill" />
+          <div class="bg-white p-8 rounded-lg mt-6 shadow-md shadow-black text-justify mongo1">
+            <p>Discover modern living at <b>Pang-Kape Apartment</b>. Our stylish apartments blend comfort and convenience, situated in prime locations for easy access to amenities. Enjoy pet-friendly ameneties catering to your furry friends, we offer pet-friendly features such as a dedicated dog park, grooming station, and pet-friendly social events and a seamless living experience with our dedicated team. Elevate your lifestyle at <b>Pang-Kape Apartment</b>.</p>
           </div>
         </div>
 
-        <div class="flex items-center justify-between mt-6">
+        <!-- <div class="flex items-center justify-between mt-6">
           <button type="submit" v-if="userType === 'admin'"
             class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 ml-auto w rounded-lg focus:outline-none focus:shadow-outline">
             Save
           </button>
-        </div>
+        </div> -->
 
       </form>
 

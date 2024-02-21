@@ -27,6 +27,7 @@ const routes = [
       //   component: () => import("../components/AcquireUnit.vue"),
       //   props: (route) => ({ unitData: route.params.unitData }),
       // },
+
       {
         path: "/ClientAccount",
         name: "ClientAccountManagement",
@@ -41,6 +42,11 @@ const routes = [
         path: "/UnitSelection",
         name: "UnitSelection",
         component: () => import("../components/UnitSelection.vue"),
+      },
+      {
+        path: "/UnitOccupied",
+        name: "UnitOccupied",
+        component: () => import("../components/UnitOccupied.vue"),
       },
       // {
       //   path: "/StudioUnit",
